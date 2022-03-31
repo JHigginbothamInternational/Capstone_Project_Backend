@@ -9,7 +9,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://xwnaiaitppoyqu:0e42ecc55df
 
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
-CORS(app)
+CORS(app, supports_credentials=True)
 bcrypt = Bcrypt(app)
 
 class User(db.Model):
@@ -56,7 +56,9 @@ def get_all_users():
 
 @app.route("/user/login", methods=["POST"])
 def login():
+    print("test1")
     if request.content_type != "application/json":
+        print("test2")
         return jsonify("ERROR: Data must be sent as JSON")
 
     post_data = request.get_json()
