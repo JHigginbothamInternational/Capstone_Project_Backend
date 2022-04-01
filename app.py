@@ -30,13 +30,15 @@ multiple_user_schema = UserSchema(many=True)
 
 @app.route("/user/add", methods=["POST"])
 def add_user():
-    if request.content_type != "application/json":
+    print("This is working", request.content_type)
+    if request.content_type != "application/json;charset=UTF-8":
         return jsonify("ERROR: Data must be sent as JSON")
 
     post_data = request.get_json()
     username = post_data.get("username")
     password = post_data.get("password")
 
+    print(post_data, username, password)
     hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
 
     record_check = db.session.query(User).filter(User.username == username).first()
@@ -56,16 +58,13 @@ def get_all_users():
 
 @app.route("/user/login", methods=["POST"])
 def login():
-    print(request.content_type)
     if request.content_type != "application/json;charset=UTF-8":
         print("test2")
         return jsonify("ERROR: Data must be sent as JSON")
-    print("content-type good")
     post_data = request.get_json()
     username = post_data.get("username")
     password = post_data.get("password")
 
-    print(post_data, username, password)
     record = db.session.query(User).filter(User.username == username).first()
     if record is None:
         return jsonify("Login failed")
