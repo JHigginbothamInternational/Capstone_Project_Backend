@@ -56,15 +56,16 @@ def get_all_users():
 
 @app.route("/user/login", methods=["POST"])
 def login():
-    print("test1")
-    if request.content_type != "application/json":
+    print(request.content_type)
+    if request.content_type != "application/json;charset=UTF-8":
         print("test2")
         return jsonify("ERROR: Data must be sent as JSON")
-
+    print("content-type good")
     post_data = request.get_json()
     username = post_data.get("username")
     password = post_data.get("password")
 
+    print(post_data, username, password)
     record = db.session.query(User).filter(User.username == username).first()
     if record is None:
         return jsonify("Login failed")
