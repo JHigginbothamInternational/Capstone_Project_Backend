@@ -49,7 +49,7 @@ def add_user():
     db.session.add(record)
     db.session.commit()
     
-    return jsonify("Account added")
+    print(jsonify(user_schema.dump(record)))
     return jsonify(user_schema.dump(record))
 
 @app.route("/user/get", methods=["GET"])
