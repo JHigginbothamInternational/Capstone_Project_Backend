@@ -48,7 +48,8 @@ def add_user():
     record = User(username, hashed_password)
     db.session.add(record)
     db.session.commit()
-
+    
+    return jsonify("Account added")
     return jsonify(user_schema.dump(record))
 
 @app.route("/user/get", methods=["GET"])
