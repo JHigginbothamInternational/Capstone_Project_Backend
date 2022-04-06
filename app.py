@@ -43,13 +43,12 @@ def add_user():
 
     record_check = db.session.query(User).filter(User.username == username).first()
     if record_check is not None:
-        return jsonify("Error: Name's taken")
+        return jsonify("Error: Name is taken")
 
     record = User(username, hashed_password)
     db.session.add(record)
     db.session.commit()
     
-    print(jsonify(user_schema.dump(record)))
     return jsonify(user_schema.dump(record))
 
 @app.route("/user/get", methods=["GET"])
